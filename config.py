@@ -12,4 +12,4 @@ LOG_PATH = f"{DATA_DIR}/logs/bot.log"
 EXPORT_DIR = "exports"
 LOGO_PATH = "rc.png"
 
-MINI_APP_URL = "https://rellion-miniapp.onrender.com"
+MINI_APP_URL = "https://rellion-bot-1.onrender.com"
