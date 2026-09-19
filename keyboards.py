@@ -13,13 +13,15 @@ from i18n import (
 )
 
 
-def btn(text, callback_data=None, url=None,
+def btn(text, callback_data=None, url=None, web_app=None,
         style=None, emoji_id=None) -> InlineKeyboardButton:
     kwargs = {"text": text}
     if callback_data is not None:
         kwargs["callback_data"] = callback_data
     if url is not None:
         kwargs["url"] = url
+    if web_app is not None:
+        kwargs["web_app"] = web_app
     if style is not None:
         kwargs["style"] = style
     if emoji_id is not None:
@@ -35,8 +37,11 @@ def btn(text, callback_data=None, url=None,
 
 
 def main_kb(lang: str) -> InlineKeyboardMarkup:
+    from telegram import WebAppInfo
     return InlineKeyboardMarkup(
         [
+            [btn("Открыть магазин", web_app=WebAppInfo(url=MINI_APP_URL),
+                 style="success", emoji_id=E.BRIEFCASE_ID)],
             [btn(t(lang, "btn_tariff"), "menu_tariff",
                  style="success", emoji_id=E.BRIEFCASE_ID)],
             [btn(t(lang, "btn_tips"), "menu_tips",

@@ -14,6 +14,7 @@ from telegram.request import HTTPXRequest
 from config import ADMIN_ID, BOT_TOKEN
 from healthcheck import start_healthcheck
 from handlers_admin import cmd_admin, on_admin_callback
+from handlers_webapp import on_web_app_data
 from handlers_user import cmd_help, cmd_secret, cmd_start, on_callback, on_text
 from logger import log
 from storage import init_db, set_user_blocked
@@ -75,6 +76,7 @@ def build_app() -> Application:
     app.add_handler(CallbackQueryHandler(on_callback))
 
     # Текст
+    app.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, on_web_app_data))
     app.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND,
         on_text,
