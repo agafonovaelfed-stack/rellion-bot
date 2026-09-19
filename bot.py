@@ -1,4 +1,4 @@
-"""Точка входа: пользователь + админ + игры + Secretary Mode."""
+"""Rellion Consult — консультационный бот."""
 
 from __future__ import annotations
 
@@ -6,15 +6,13 @@ import time
 
 from telegram import Update
 from telegram.ext import (
-    Application, BusinessConnectionHandler, CallbackQueryHandler,
-    CommandHandler, MessageHandler, filters,
+    Application, CallbackQueryHandler, CommandHandler,
+    MessageHandler, filters,
 )
 from telegram.request import HTTPXRequest
 
-from business import (
-    on_business_callback, on_business_connection, on_business_message,
-)
-from config import BOT_TOKEN, ADMIN_ID
+from config import ADMIN_ID, BOT_TOKEN
+from healthcheck import start_healthcheck
 from handlers_admin import cmd_admin, on_admin_callback
 from handlers_user import cmd_help, cmd_secret, cmd_start, on_callback, on_text
 from logger import log
@@ -45,11 +43,6 @@ async def on_error(update: object, context) -> None:
         pass
 
 
-async def on_text_router(update: Update,
-                         context: ContextTypes.DEFAULT_TYPE) -> None:
-    await on_text(update, context)
-
-
 def build_app() -> Application:
     request = HTTPXRequest(
         connection_pool_size=8,
@@ -66,14 +59,7 @@ def build_app() -> Application:
         .build()
     )
 
-    # === Secretary Mode ===
-    app.add_handler(BusinessConnectionHandler(on_business_connection))
-    app.add_handler(MessageHandler(
-        filters.UpdateType.BUSINESS_MESSAGE & filters.TEXT & ~filters.COMMAND,
-        on_business_message,
-    ))
-
-    # === Команды ===
+    # Команды
     app.add_handler(CommandHandler("start", cmd_start))
     app.add_handler(CommandHandler("help", cmd_help))
     app.add_handler(CommandHandler("admin", cmd_admin))
@@ -84,25 +70,14 @@ def build_app() -> Application:
         cmd_secret,
     ))
 
-    # Команда .play (без слэша)
-    app.add_handler(MessageHandler(
-        filters.TEXT & ~filters.COMMAND & filters.Regex(r"^\.play\b"),
-        cmd_play,
-    ))
-
-    # === Callback'и ===
-    # Business callback'и (игры в бизнес-чате)
-    app.add_handler(CallbackQueryHandler(
-        on_business_callback,
-        pattern=r"^(game_|rps_|coin_|quiz_)",
-    ))
+    # Callback-хендлеры
     app.add_handler(CallbackQueryHandler(on_admin_callback, pattern=r"^adm_"))
     app.add_handler(CallbackQueryHandler(on_callback))
 
-    # === Текст ===
+    # Текст
     app.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND,
-        on_text_router,
+        on_text,
     ))
 
     app.add_error_handler(on_error)
@@ -111,6 +86,7 @@ def build_app() -> Application:
 
 def main() -> None:
     init_db()
+    start_healthcheck()  # HTTP-сервер для Render
     log.info("Bot starting...")
 
     delay = 5

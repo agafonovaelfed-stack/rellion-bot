@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
+
 import emoji as E
 from config import MANAGER
 from i18n import (
@@ -174,3 +175,5 @@ def admin_back_kb() -> InlineKeyboardMarkup:
         [[btn("Назад в админку", "adm_home",
               style="primary", emoji_id=E.GEAR_ID)]]
     )
+
+

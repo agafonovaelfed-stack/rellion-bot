@@ -33,16 +33,13 @@ from storage import (
 drafts: Dict[int, Dict[str, str]] = {}
 LOGO_ID_CACHE = Path("logo_id.txt")
 
-
 def get_draft(user_id: int) -> Dict[str, str]:
     return drafts.setdefault(user_id, {})
-
 
 def new_order_id() -> str:
     letters = "".join(random.choices(string.ascii_uppercase, k=3))
     digits = "".join(random.choices(string.digits, k=4))
     return f"{letters}{digits}"
-
 
 def _load_logo_id() -> str | None:
     if LOGO_ID_CACHE.exists():
@@ -51,10 +48,8 @@ def _load_logo_id() -> str | None:
             return value
     return None
 
-
 def _save_logo_id(file_id: str) -> None:
     LOGO_ID_CACHE.write_text(file_id, encoding="utf-8")
-
 
 async def _send_with_logo(chat_message, text: str, reply_markup=None) -> None:
     file_id = _load_logo_id()
@@ -82,14 +77,12 @@ async def _send_with_logo(chat_message, text: str, reply_markup=None) -> None:
     if msg.photo:
         _save_logo_id(msg.photo[-1].file_id)
 
-
 async def _render(q, text: str, reply_markup=None) -> None:
     try:
         await q.message.delete()
     except Exception:
         pass
     await _send_with_logo(q.message, text, reply_markup=reply_markup)
-
 
 async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user = update.effective_user
@@ -109,7 +102,6 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     await _send_with_logo(update.message, text, reply_markup=main_kb(lang))
 
-
 async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not update.effective_user or not update.message:
         return
@@ -117,11 +109,37 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     text = f"{E.BOOK} /start — {t(lang, 'menu_home')}"
     await _send_with_logo(update.message, text)
 
-
 async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Любое текстовое сообщение (кроме команд) — открывает главное меню."""
-    await cmd_start(update, context)
+    """Обработка reply-кнопок Меню / FAQ / Поддержка."""
+    user = update.effective_user
+    if not user or not update.message or not update.message.text:
+        return
+    lang = get_user_lang(user.id)
+    txt = (update.message.text or "").strip()
 
+    # Reply-кнопки
+    if txt in ("🏠 Меню", "🏠 Menu"):
+        await cmd_start(update, context)
+        return
+
+    if txt in ("❓ FAQ",):
+        await _send_with_logo(
+            update.message,
+            f"{E.FAQ} " + tx(lang, "faq_title") + "\n\n" + tx(lang, "faq_text"),
+            reply_markup=faq_kb(lang),
+        )
+        return
+
+    if txt in ("🎧 Поддержка", "🎧 Support"):
+        await _send_with_logo(
+            update.message,
+            f"{E.SUPPORT} " + tx(lang, "support_text"),
+            reply_markup=support_kb(lang),
+        )
+        return
+
+    # По умолчанию — открыть главное меню
+    await cmd_start(update, context)
 
 async def cmd_secret(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Скрытая админка по кодовому слову."""
@@ -153,7 +171,6 @@ async def cmd_secret(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
         parse_mode=ParseMode.HTML,
         reply_markup=admin_kb(),
     )
-
 
 async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     q = update.callback_query
