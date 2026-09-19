@@ -1,7 +1,27 @@
+# Секреты
+.env
+.env.*
+!.env.example
+
+# Python
 .venv/
+venv/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+
+# База и логи
 data/
 exports/
 logo_id.txt
+
+# macOS
 .DS_Store
+._*
+
+# IDE
+.vscode/
+.idea/
