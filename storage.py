@@ -33,6 +33,7 @@ def init_db() -> None:
                 last_name   TEXT,
                 first_seen  TEXT NOT NULL,
                 last_seen   TEXT NOT NULL,
+                lang        TEXT DEFAULT 'ru',
                 is_blocked  INTEGER DEFAULT 0
             );
 
@@ -57,6 +58,15 @@ def init_db() -> None:
             );
             """
         )
+        # Миграции для старых БД
+        for migration in [
+            "ALTER TABLE users ADD COLUMN lang TEXT DEFAULT 'ru'",
+            "ALTER TABLE users ADD COLUMN is_blocked INTEGER DEFAULT 0",
+        ]:
+            try:
+                conn.execute(migration)
+            except Exception:
+                pass  # колонка уже есть
 
 
 def upsert_user(user_id, username, first_name, last_name) -> None:
