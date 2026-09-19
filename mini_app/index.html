@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Rellion Consult</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="stylesheet" href="style.css?v=3">
+</head>
+<body>
+
+<header class="header">
+    <img src="logo.png" alt="Rellion" class="logo">
+    <h1>Rellion Consult</h1>
+    <p class="subtitle">Аккаунты с отлегой. Подбор за 30 секунд.</p>
+</header>
+
+<nav class="tabs">
+    <button class="tab active" data-tab="catalog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span>Каталог</span>
+    </button>
+    <button class="tab" data-tab="profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Кабинет</span>
+    </button>
+</nav>
+
+<section class="tab-content active" id="tab-catalog">
+
+    <div class="tariff-card">
+        <div class="card-icon icon-rocket">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+            </svg>
+        </div>
+        <span class="badge badge-red">СРОЧНЫЙ</span>
+        <h2>Срочный</h2>
+        <p class="hint">Быстрее по срокам, меньше проверок на старте. Если нужно «вчера».</p>
+        <div class="features">
+            <span>Быстрая выдача</span>
+            <span>Минимум проверок</span>
+        </div>
+        <button class="btn btn-primary" onclick="selectTariff('fast')">
+            <span>Выбрать тариф</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="tariff-card">
+        <div class="card-icon icon-chart">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"/>
+                <line x1="12" y1="20" x2="12" y2="4"/>
+                <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+        </div>
+        <span class="badge badge-blue">СТАНДАРТ</span>
+        <h2>Стандарт</h2>
+        <p class="hint">Баланс цены и срока. Оптимально для большинства заявок.</p>
+        <div class="features">
+            <span>Оптимальный выбор</span>
+            <span>Средний срок</span>
+        </div>
+        <button class="btn btn-primary" onclick="selectTariff('std')">
+            <span>Выбрать тариф</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="tariff-card">
+        <div class="card-icon icon-shield">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="M9 12l2 2 4-4"/>
+            </svg>
+        </div>
+        <span class="badge badge-green">С ПРОВЕРКОЙ</span>
+        <h2>С проверкой</h2>
+        <p class="hint">Дольше готовится, больше ручных проверок. Меньше сюрпризов.</p>
+        <div class="features">
+            <span>Больше проверок</span>
+            <span>Гарантия качества</span>
+        </div>
+        <button class="btn btn-primary" onclick="selectTariff('care')">
+            <span>Выбрать тариф</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+            </svg>
+        </button>
+    </div>
+
+</section>
+
+<section class="tab-content" id="tab-profile">
+
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="avatar" id="userAvatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </div>
+            <div>
+                <div class="profile-name" id="userName">Пользователь</div>
+                <div class="profile-username" id="userUsername">@username</div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="statOrders">0</div>
+                <div class="stat-label">Заявок</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="statAging">—</div>
+                <div class="stat-label">Средняя отлега</div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="section-title">Мои заявки</h3>
+    <div id="ordersList" class="orders-list">
+        <div class="empty">У вас пока нет заявок</div>
+    </div>
+
+    <button class="btn btn-contact" onclick="contactManager()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span>Написать менеджеру</span>
+    </button>
+
+</section>
+
+<div class="modal" id="orderModal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+
+        <h2 id="modalTitle">Оформление заявки</h2>
+
+        <label>Страна</label>
+        <div class="custom-select" id="countrySelect">
+            <button type="button" class="select-trigger" onclick="toggleCountry(event)">
+                <span id="countryValue">Россия</span>
+                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </button>
+            <div class="select-options" id="countryOptions">
+                <div class="select-option" data-value="Россия" onclick="pickCountry('Россия')">Россия</div>
+                <div class="select-option" data-value="Казахстан" onclick="pickCountry('Казахстан')">Казахстан</div>
+                <div class="select-option" data-value="Беларусь" onclick="pickCountry('Беларусь')">Беларусь</div>
+                <div class="select-option" data-value="Украина" onclick="pickCountry('Украина')">Украина</div>
+                <div class="select-option" data-value="США" onclick="pickCountry('США')">США</div>
+                <div class="select-option" data-value="Германия" onclick="pickCountry('Германия')">Германия</div>
+                <div class="select-option" data-value="Польша" onclick="pickCountry('Польша')">Польша</div>
+                <div class="select-option" data-value="Другая" onclick="pickCountry('Другая')">Другая</div>
+            </div>
+        </div>
+
+        <label>Отлега</label>
+        <div class="aging-options">
+            <button class="aging-btn" data-aging="5 лет" onclick="selectAging(this)">5 лет</button>
+            <button class="aging-btn" data-aging="6 лет" onclick="selectAging(this)">6 лет</button>
+            <button class="aging-btn" data-aging="7 лет" onclick="selectAging(this)">7 лет</button>
+            <button class="aging-btn" data-aging="8 лет" onclick="selectAging(this)">8 лет</button>
+        </div>
+
+        <button class="btn btn-submit" onclick="submitOrder()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span>Создать заявку</span>
+        </button>
+    </div>
+</div>
+
+<div class="toast" id="toast">
+    <div class="toast-icon" id="toastIcon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+        </svg>
+    </div>
+    <div class="toast-text" id="toastText">Готово</div>
+</div>
+
+<script src="app.js?v=3"></script>
+</body>
+</html>
