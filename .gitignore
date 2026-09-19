@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+data/
+exports/
+logo_id.txt
+.DS_Store

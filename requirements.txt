@@ -1,0 +1,6 @@
+python-telegram-bot>=22.6
+requests
+python-whois
+dnspython
+phonenumbers
+Pillow
