@@ -7,7 +7,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 import emoji as E
-from config import MANAGER
+from config import MANAGER, MINI_APP_URL
 from i18n import (
     AGING_TITLES, COUNTRY_TITLES, LANGS, TARIFF_TITLES, t, tx,
 )
